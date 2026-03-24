@@ -1,55 +1,56 @@
 import { NextResponse } from "next/server";
+import { Redis } from "@upstash/redis";
 
-// Force dynamic — never cache this route
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
-type Vote = {
-  voterId: string;
-  voter: string;
-  question: number;
-  target: string;
-  reason: string;
+let _redis: Redis | null = null;
+function getRedis() {
+  if (!_redis) _redis = Redis.fromEnv();
+  return _redis;
+}
+
+const STATE_KEY = "whois:state";
+
+type Vote = { voterId: string; voter: string; question: number; target: string; reason: string };
+type Player = { id: string; name: string; lastSeen: number };
+type State = {
+  game: { status: "lobby" | "question" | "final"; currentQuestion: number; totalQuestions: number; kickVersion: number };
+  votes: Vote[];
+  players: Player[];
 };
 
-type Player = {
-  id: string;
-  name: string;
-  lastSeen: number;
-};
-
-// Use globalThis to survive module re-evaluations within the same instance
-const globalState = globalThis as unknown as {
-  __whois_state?: {
-    game: { status: "lobby" | "question" | "final"; currentQuestion: number; totalQuestions: number; kickVersion: number };
-    votes: Vote[];
-    players: Player[];
-  };
-};
-
-if (!globalState.__whois_state) {
-  globalState.__whois_state = {
+function defaultState(): State {
+  return {
     game: { status: "lobby", currentQuestion: 0, totalQuestions: 35, kickVersion: 1 },
     votes: [],
     players: [],
   };
 }
 
-const state = globalState.__whois_state;
+async function loadState(): Promise<State> {
+  try {
+    const data = await getRedis().get<State>(STATE_KEY);
+    if (data) return data;
+  } catch { /* first run or corrupted */ }
+  return defaultState();
+}
 
-function cleanStalePlayers() {
+async function saveState(state: State) {
+  await getRedis().set(STATE_KEY, state);
+}
+
+function cleanStalePlayers(state: State) {
   const now = Date.now();
   state.players = state.players.filter((p) => now - p.lastSeen < 20000);
 }
 
 function noCacheHeaders() {
-  return {
-    "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-    Pragma: "no-cache",
-  };
+  return { "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0", Pragma: "no-cache" };
 }
 
 export async function GET(request: Request) {
+  const state = await loadState();
   const { searchParams } = new URL(request.url);
   const type = searchParams.get("type");
 
@@ -65,7 +66,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ votes: state.votes }, { headers: noCacheHeaders() });
   }
   if (type === "players") {
-    cleanStalePlayers();
+    cleanStalePlayers(state);
+    await saveState(state);
     return NextResponse.json({
       players: state.players.map((p) => ({ id: p.id, name: p.name })),
       count: state.players.length,
@@ -76,6 +78,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const state = await loadState();
   const body = await request.json();
 
   if (body.type === "game") {
@@ -95,14 +98,13 @@ export async function POST(request: Request) {
       state.votes = [];
       state.players = [];
     }
+    await saveState(state);
     return NextResponse.json(state.game, { headers: noCacheHeaders() });
   }
 
   if (body.type === "vote") {
     const voterId = body.voterId || "unknown";
-    const exists = state.votes.some(
-      (v) => v.voterId === voterId && v.question === body.question
-    );
+    const exists = state.votes.some((v) => v.voterId === voterId && v.question === body.question);
     if (!exists) {
       state.votes.push({
         voterId,
@@ -111,6 +113,7 @@ export async function POST(request: Request) {
         target: body.target,
         reason: body.reason || "",
       });
+      await saveState(state);
     }
     return NextResponse.json({ ok: true, totalVotes: state.votes.length }, { headers: noCacheHeaders() });
   }
@@ -125,6 +128,7 @@ export async function POST(request: Request) {
     } else {
       state.players.push({ id, name, lastSeen: Date.now() });
     }
+    await saveState(state);
     return NextResponse.json({
       players: state.players.map((p) => ({ id: p.id, name: p.name })),
       count: state.players.length,
