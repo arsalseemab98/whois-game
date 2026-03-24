@@ -284,18 +284,52 @@ export default function HostPage() {
                       </div>
                     ))}
                   </div>
-                  {reasons.length > 0 && (
-                    <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5 mb-6">
-                      <h3 className="text-base font-bold text-zinc-400 mb-3 font-mono flex items-center gap-2"><MessageCircle className="w-4 h-4" /> THE TEA</h3>
-                      <div className="space-y-2">
-                        {reasons.map((r, i) => (
-                          <p key={i} className="text-lg text-zinc-300 italic">
-                            &quot;{r.reason}&quot; <span className="text-zinc-600 text-sm ml-2">— {r.voter} → {r.target}</span>
-                          </p>
-                        ))}
+                  {reasons.length > 0 && (() => {
+                    // Find most popular reason
+                    const reasonTally: Record<string, number> = {};
+                    reasons.forEach((r) => { reasonTally[r.reason] = (reasonTally[r.reason] || 0) + 1; });
+                    const topReasons = Object.entries(reasonTally).sort((a, b) => b[1] - a[1]);
+                    const topReason = topReasons[0];
+
+                    return (
+                      <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5 mb-6">
+                        <h3 className="text-base font-bold text-zinc-400 mb-3 font-mono flex items-center gap-2"><MessageCircle className="w-4 h-4" /> THE TEA</h3>
+
+                        {/* Most popular reason */}
+                        {topReason && topReason[1] > 1 && (
+                          <div className="bg-red-600/10 border border-red-800/30 rounded-xl p-3 mb-3">
+                            <p className="text-xs text-red-400 font-mono mb-1 flex items-center gap-1"><Flame className="w-3 h-3" /> TOP REASON ({topReason[1]} votes)</p>
+                            <p className="text-lg text-red-300 font-bold">&quot;{topReason[0]}&quot;</p>
+                          </div>
+                        )}
+
+                        {/* All reasons */}
+                        <div className="space-y-2">
+                          {reasons.map((r, i) => (
+                            <p key={i} className="text-base text-zinc-300 italic">
+                              &quot;{r.reason}&quot; <span className="text-zinc-600 text-sm ml-2">— {r.voter} → {r.target}</span>
+                            </p>
+                          ))}
+                        </div>
+
+                        {/* Reason breakdown */}
+                        {topReasons.length > 1 && (
+                          <div className="mt-3 pt-3 border-t border-zinc-800">
+                            <p className="text-xs text-zinc-500 font-mono mb-2">REASON BREAKDOWN</p>
+                            <div className="flex flex-wrap gap-1.5">
+                              {topReasons.map(([r, count]) => (
+                                <span key={r} className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                                  r === topReason[0] ? "bg-red-600/20 text-red-400 border border-red-600/30" : "bg-zinc-800 text-zinc-400 border border-zinc-700"
+                                }`}>
+                                  &quot;{r.length > 25 ? r.slice(0, 25) + "..." : r}&quot; × {count}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  )}
+                    );
+                  })()}
                 </>
               )}
             </>

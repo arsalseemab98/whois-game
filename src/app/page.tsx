@@ -1,9 +1,22 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Flame, Eye, EyeOff, ArrowLeft, Send, CheckCircle, AlertTriangle, Clock, Trophy } from "lucide-react";
+import { Flame, Eye, EyeOff, ArrowLeft, Send, CheckCircle, AlertTriangle, Clock, Trophy, PenLine } from "lucide-react";
 
 const PLAYERS = ["Bia", "Kamran", "Shamama", "Arsal", "Sabrina", "Shazil", "Alina"];
+
+const WHY_OPTIONS = [
+  "Everyone knows it",
+  "They do it all the time",
+  "They just proved it today",
+  "It's obvious, no explanation needed",
+  "They would admit it themselves",
+  "I've seen it with my own eyes",
+  "They're literally famous for this",
+  "Ask anyone, they'll agree",
+  "No one else even comes close",
+  "They don't even try to hide it",
+];
 
 const COLORS = [
   "from-red-600 to-red-700", "from-orange-600 to-orange-700", "from-amber-600 to-amber-700",
@@ -33,6 +46,7 @@ export default function MobilePage() {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showReasonInput, setShowReasonInput] = useState(false);
   const [reason, setReason] = useState("");
+  const [showCustomReason, setShowCustomReason] = useState(false);
   const [showFlash, setShowFlash] = useState(false);
   const [shuffledPlayers, setShuffledPlayers] = useState<string[]>([...PLAYERS].sort(() => Math.random() - 0.5));
   const [voteError, setVoteError] = useState(false);
@@ -77,6 +91,7 @@ export default function MobilePage() {
           setSelectedAnswer(null);
           setShowReasonInput(false);
           setReason("");
+          setShowCustomReason(false);
           setGame(data);
           return;
         }
@@ -89,6 +104,7 @@ export default function MobilePage() {
           setSelectedAnswer(null);
           setShowReasonInput(false);
           setReason("");
+          setShowCustomReason(false);
           setVoteError(false);
         }
 
@@ -280,22 +296,57 @@ export default function MobilePage() {
             ))}
           </div>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center gap-4 animate-slide-up">
-            <div className="text-center">
+          <div className="flex-1 flex flex-col gap-3 animate-slide-up max-w-sm mx-auto w-full">
+            <div className="text-center mb-1">
               <p className="text-zinc-400 text-sm font-mono mb-1">You picked</p>
-              <p className="text-3xl font-black text-red-400">{selectedAnswer}</p>
+              <p className="text-2xl font-black text-red-400">{selectedAnswer}</p>
+              <p className="text-zinc-500 text-xs font-mono mt-1">Now pick WHY</p>
             </div>
-            <textarea placeholder="Why? Spill the tea... ☕🔥 (optional)" value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              className="w-full max-w-sm px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-white placeholder:text-zinc-600 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all resize-none h-24"
-              autoFocus />
-            <div className="flex gap-3 w-full max-w-sm">
-              <button onClick={() => { setSelectedAnswer(null); setShowReasonInput(false); setReason(""); }}
+
+            {/* Predefined reason options */}
+            {!showCustomReason ? (
+              <div className="space-y-2 flex-1 overflow-y-auto">
+                {WHY_OPTIONS.map((opt) => (
+                  <button
+                    key={opt}
+                    onClick={() => setReason(opt)}
+                    className={`w-full text-left px-4 py-3 rounded-xl font-semibold text-sm transition-all border ${
+                      reason === opt
+                        ? "bg-red-600/20 border-red-600/50 text-red-300"
+                        : "bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-600"
+                    }`}
+                  >
+                    {reason === opt ? <CheckCircle className="w-4 h-4 inline mr-2 text-red-400" /> : null}
+                    {opt}
+                  </button>
+                ))}
+                <button
+                  onClick={() => { setShowCustomReason(true); setReason(""); }}
+                  className="w-full text-left px-4 py-3 rounded-xl font-semibold text-sm transition-all border bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-600 flex items-center gap-2"
+                >
+                  <PenLine className="w-4 h-4" /> Write your own reason...
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <textarea placeholder="Spill the tea... why them?" value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  className="w-full px-4 py-3 bg-zinc-900 border border-zinc-700 rounded-xl text-white placeholder:text-zinc-600 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all resize-none h-20"
+                  autoFocus />
+                <button onClick={() => { setShowCustomReason(false); setReason(""); }}
+                  className="text-zinc-500 text-xs hover:text-zinc-300 transition-colors">
+                  <ArrowLeft className="w-3 h-3 inline" /> Back to options
+                </button>
+              </div>
+            )}
+
+            <div className="flex gap-3">
+              <button onClick={() => { setSelectedAnswer(null); setShowReasonInput(false); setReason(""); setShowCustomReason(false); }}
                 className="flex-1 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-bold transition-all border border-zinc-700 text-sm flex items-center justify-center gap-1.5">
                 <ArrowLeft className="w-4 h-4" /> Change
               </button>
-              <button onClick={handleSubmitVote}
-                className="flex-1 py-3 bg-red-600 hover:bg-red-500 rounded-xl font-bold transition-all text-sm flex items-center justify-center gap-1.5">
+              <button onClick={handleSubmitVote} disabled={!reason}
+                className="flex-1 py-3 bg-red-600 hover:bg-red-500 disabled:bg-zinc-800 disabled:text-zinc-600 rounded-xl font-bold transition-all text-sm flex items-center justify-center gap-1.5">
                 <Send className="w-4 h-4" /> Submit
               </button>
             </div>
