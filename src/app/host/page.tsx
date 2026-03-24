@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { Flame, RotateCcw, Crown, Skull, Trophy, Eye, ChevronRight, MessageCircle, Users, Smartphone } from "lucide-react";
 
 const PLAYERS = ["Bia", "Kamran", "Shamama", "Arsal", "Sabrina", "Shazil", "Alina"];
 
@@ -156,7 +157,9 @@ export default function HostPage() {
           <p className="text-3xl sm:text-4xl font-black text-white font-mono break-all">
             {typeof window !== "undefined" ? window.location.origin : ""}
           </p>
-          <p className="text-zinc-600 text-base font-mono mt-3">on their phones 📱</p>
+          <p className="text-zinc-600 text-base font-mono mt-3 flex items-center justify-center gap-1.5">
+            <Smartphone className="w-4 h-4" /> on their phones
+          </p>
         </div>
 
         {/* Joined players */}
@@ -175,7 +178,7 @@ export default function HostPage() {
               </div>
               <button onClick={() => { if (confirm("Kick all players? They'll need to rejoin.")) resetAll(); }}
                 className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm font-mono text-zinc-500 hover:text-red-400 transition-all border border-zinc-700">
-                🔄 Reset & kick all
+                <RotateCcw className="w-3.5 h-3.5 inline" /> Reset & kick all
               </button>
             </>
           )}
@@ -189,7 +192,9 @@ export default function HostPage() {
 
         <button onClick={() => sendAction("start")} disabled={joinedPlayers.length === 0}
           className="py-5 px-16 bg-red-600 hover:bg-red-500 disabled:bg-zinc-800 disabled:text-zinc-600 text-white font-black text-3xl rounded-2xl transition-all hover:scale-105 active:scale-95 animate-pulse-glow disabled:animate-none disabled:hover:scale-100">
-          {joinedPlayers.length === 0 ? "⏳ WAITING FOR PLAYERS" : "🔥 START GAME"}
+          {joinedPlayers.length === 0
+            ? <><Users className="w-7 h-7 inline" /> WAITING FOR PLAYERS</>
+            : <><Flame className="w-7 h-7 inline" /> START GAME</>}
         </button>
       </main>
     );
@@ -219,7 +224,7 @@ export default function HostPage() {
             {showResults && <span className="text-orange-400 font-mono text-lg">● RESULTS</span>}
             <span className="bg-zinc-800 px-4 py-2 rounded-full font-mono text-lg">{uniqueVoterIds.length}/{totalExpected} voted</span>
             <button onClick={() => { if (confirm("Reset game?")) resetAll(); }}
-              className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm font-mono text-zinc-500 hover:text-red-400 transition-all border border-zinc-700">🔄</button>
+              className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm font-mono text-zinc-500 hover:text-red-400 transition-all border border-zinc-700"><RotateCcw className="w-4 h-4" /></button>
           </div>
         </div>
 
@@ -253,7 +258,7 @@ export default function HostPage() {
                 <p className="text-zinc-600 font-mono animate-pulse">Waiting for more votes...</p>
               )}
               <button onClick={() => setRevealed(true)} className="mt-6 py-3 px-8 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-lg rounded-2xl transition-all border border-zinc-700">
-                👀 Show Results Now
+                <Eye className="w-5 h-5 inline" /> Show Results Now
               </button>
             </div>
           ) : (
@@ -270,7 +275,7 @@ export default function HostPage() {
                     {results.map((entry, i) => (
                       <div key={entry.name} className="animate-slide-up" style={{ animationDelay: `${i * 0.1}s` }}>
                         <div className="flex items-center justify-between mb-1">
-                          <span className="font-black text-2xl">{i === 0 ? "👑" : "💀"} {entry.name}</span>
+                          <span className="font-black text-2xl flex items-center gap-2">{i === 0 ? <Crown className="w-6 h-6 text-yellow-400" /> : <Skull className="w-5 h-5 text-zinc-500" />} {entry.name}</span>
                           <span className="text-zinc-400 font-mono text-xl">{entry.count}</span>
                         </div>
                         <div className="w-full h-8 bg-zinc-800 rounded-full overflow-hidden">
@@ -281,7 +286,7 @@ export default function HostPage() {
                   </div>
                   {reasons.length > 0 && (
                     <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5 mb-6">
-                      <h3 className="text-base font-bold text-zinc-400 mb-3 font-mono">🫖 THE TEA</h3>
+                      <h3 className="text-base font-bold text-zinc-400 mb-3 font-mono flex items-center gap-2"><MessageCircle className="w-4 h-4" /> THE TEA</h3>
                       <div className="space-y-2">
                         {reasons.map((r, i) => (
                           <p key={i} className="text-lg text-zinc-300 italic">
@@ -301,7 +306,7 @@ export default function HostPage() {
           <div className="text-center mt-6">
             <button onClick={() => { setRevealed(false); sendAction("next"); }}
               className="py-4 px-12 bg-red-600 hover:bg-red-500 text-white font-bold text-2xl rounded-2xl transition-all hover:scale-105 active:scale-95">
-              {isLast ? "🏆 FINAL RESULTS" : "⏭️ NEXT QUESTION"}
+              {isLast ? <><Trophy className="w-6 h-6 inline" /> FINAL RESULTS</> : <><ChevronRight className="w-6 h-6 inline" /> NEXT QUESTION</>}
             </button>
           </div>
         )}
@@ -321,7 +326,7 @@ export default function HostPage() {
       <main className="flex-1 flex flex-col p-8 min-h-screen">
         {toast}
         <div className="text-center mb-8">
-          <h1 className="text-5xl sm:text-7xl font-black mb-2">GAME OVER 💀</h1>
+          <h1 className="text-5xl sm:text-7xl font-black mb-2 flex items-center justify-center gap-3">GAME OVER <Skull className="w-12 h-12 text-red-400" /></h1>
           <p className="text-zinc-500 font-mono text-xl">{totalVotes} total votes</p>
         </div>
         {topPerson && (
@@ -333,7 +338,7 @@ export default function HostPage() {
           </div>
         )}
         <div className="max-w-2xl mx-auto w-full mb-8">
-          <h2 className="text-2xl font-bold text-zinc-400 mb-6 font-mono">🏆 FINAL LEADERBOARD</h2>
+          <h2 className="text-2xl font-bold text-zinc-400 mb-6 font-mono flex items-center gap-2"><Trophy className="w-6 h-6 text-yellow-400" /> FINAL LEADERBOARD</h2>
           <div className="space-y-4">
             {overall.map((entry, i) => (
               <div key={entry.name} className="animate-slide-up" style={{ animationDelay: `${i * 0.15}s` }}>
@@ -349,7 +354,9 @@ export default function HostPage() {
           </div>
         </div>
         <div className="text-center">
-          <button onClick={resetAll} className="py-4 px-12 bg-red-600 hover:bg-red-500 text-white font-bold text-2xl rounded-2xl transition-all hover:scale-105 active:scale-95">🔥 NEW GAME</button>
+          <button onClick={resetAll} className="py-4 px-12 bg-red-600 hover:bg-red-500 text-white font-bold text-2xl rounded-2xl transition-all hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto">
+            <Flame className="w-7 h-7" /> NEW GAME
+          </button>
         </div>
       </main>
     );

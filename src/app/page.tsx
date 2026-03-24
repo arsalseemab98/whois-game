@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { Flame, Eye, EyeOff, ArrowLeft, Send, CheckCircle, AlertTriangle, Clock, Trophy } from "lucide-react";
 
 const PLAYERS = ["Bia", "Kamran", "Shamama", "Arsal", "Sabrina", "Shazil", "Alina"];
 
@@ -153,12 +154,22 @@ export default function MobilePage() {
   // ── JOIN ──
   if (!joined) {
     return (
-      <main className="flex-1 flex flex-col items-center justify-center p-6 gap-8">
+      <main className="flex-1 flex flex-col items-center justify-center p-6 gap-6">
         <div className="text-center animate-slide-up">
           <h1 className="text-5xl sm:text-7xl font-black tracking-tighter mb-2">
             WHO IS<span className="text-red-500">...</span>
           </h1>
-          <p className="text-zinc-500 text-base font-mono">💀 enter your name to join 💀</p>
+          <p className="text-zinc-500 text-base font-mono flex items-center justify-center gap-2">
+            <Flame className="w-4 h-4 text-red-500" /> enter your name to join <Flame className="w-4 h-4 text-red-500" />
+          </p>
+        </div>
+
+        {/* How it works */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 max-w-sm w-full text-sm text-zinc-400 space-y-2">
+          <p className="text-zinc-300 font-semibold text-center mb-2">How it works</p>
+          <p><span className="text-red-400 font-bold">No correct answers!</span> Vote for who you think fits each question best.</p>
+          <p>After everyone votes, the person with <span className="text-red-400 font-bold">the most votes</span> is revealed with reasons.</p>
+          <p className="text-zinc-500 text-xs text-center pt-1">The goal? Start chaos in the group chat.</p>
         </div>
         <div className="flex flex-col gap-4 w-full max-w-sm">
           <input
@@ -172,7 +183,10 @@ export default function MobilePage() {
               className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${isAnonymous ? "bg-red-600 border-red-600" : "border-zinc-600 hover:border-zinc-400"}`}>
               {isAnonymous && <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
             </button>
-            <span className="text-zinc-400">Stay Anonymous 🕵️</span>
+            <span className="text-zinc-400 flex items-center gap-1.5">
+              {isAnonymous ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              Stay Anonymous
+            </span>
           </label>
           <button
             onClick={async () => {
@@ -197,7 +211,7 @@ export default function MobilePage() {
             disabled={!isAnonymous && !playerName.trim()}
             className="w-full py-4 px-8 bg-red-600 hover:bg-red-500 disabled:bg-zinc-800 disabled:text-zinc-600 text-white font-bold text-xl rounded-2xl transition-all hover:scale-105 active:scale-95 disabled:hover:scale-100"
           >
-            JOIN GAME 🔥
+            <Flame className="w-5 h-5 inline" /> JOIN GAME
           </button>
         </div>
       </main>
@@ -213,9 +227,11 @@ export default function MobilePage() {
           <p className="text-zinc-400 font-mono text-lg">{voterName}</p>
         </div>
         <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center">
-          <div className="text-5xl mb-4 animate-pulse">⏳</div>
+          <Clock className="w-12 h-12 text-zinc-500 mx-auto mb-4 animate-pulse" />
           <p className="text-zinc-400 text-lg">Waiting for host to start...</p>
-          <p className="text-zinc-600 text-sm font-mono mt-2">Look at the big screen!</p>
+          <p className="text-zinc-600 text-sm font-mono mt-2 flex items-center justify-center gap-1.5">
+            <Eye className="w-3.5 h-3.5" /> Look at the big screen!
+          </p>
         </div>
       </main>
     );
@@ -230,7 +246,9 @@ export default function MobilePage() {
         <main className="flex-1 flex flex-col items-center justify-center p-6 gap-6">
           <p className="text-zinc-500 font-mono text-sm">Q{game.currentQuestion + 1}/{game.totalQuestions}</p>
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 text-center">
-            <div className="text-5xl mb-4">{voteError ? "⚠️" : "✅"}</div>
+            {voteError
+              ? <AlertTriangle className="w-12 h-12 text-orange-400 mx-auto mb-4" />
+              : <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-4" />}
             <p className={`text-xl font-bold ${voteError ? "text-orange-400" : "text-green-400"}`}>
               {voteError ? "Vote may not have sent!" : "Vote submitted!"}
             </p>
@@ -273,9 +291,13 @@ export default function MobilePage() {
               autoFocus />
             <div className="flex gap-3 w-full max-w-sm">
               <button onClick={() => { setSelectedAnswer(null); setShowReasonInput(false); setReason(""); }}
-                className="flex-1 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-bold transition-all border border-zinc-700 text-sm">← Change</button>
+                className="flex-1 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-bold transition-all border border-zinc-700 text-sm flex items-center justify-center gap-1.5">
+                <ArrowLeft className="w-4 h-4" /> Change
+              </button>
               <button onClick={handleSubmitVote}
-                className="flex-1 py-3 bg-red-600 hover:bg-red-500 rounded-xl font-bold transition-all text-sm">Submit 💀</button>
+                className="flex-1 py-3 bg-red-600 hover:bg-red-500 rounded-xl font-bold transition-all text-sm flex items-center justify-center gap-1.5">
+                <Send className="w-4 h-4" /> Submit
+              </button>
             </div>
           </div>
         )}
@@ -287,9 +309,12 @@ export default function MobilePage() {
   if (game.status === "final") {
     return (
       <main className="flex-1 flex flex-col items-center justify-center p-6 gap-6">
-        <h1 className="text-4xl font-black">GAME OVER 💀</h1>
-        <p className="text-zinc-400 font-mono">Look at the big screen for final results!</p>
-        <div className="text-6xl animate-pulse">🔥</div>
+        <Trophy className="w-16 h-16 text-red-400 animate-pulse" />
+        <h1 className="text-4xl font-black">GAME OVER</h1>
+        <p className="text-zinc-400 font-mono flex items-center gap-2">
+          <Eye className="w-4 h-4" /> Look at the big screen for final results!
+        </p>
+        <Flame className="w-10 h-10 text-orange-500 animate-pulse" />
       </main>
     );
   }
