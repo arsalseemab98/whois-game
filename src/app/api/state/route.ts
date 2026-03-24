@@ -25,10 +25,10 @@ const state = {
   players: [] as Player[],
 };
 
-// Remove players not seen in 30 seconds (heartbeat is every 2s)
+// Remove players not seen in 20 seconds (heartbeat is every 5s)
 function cleanStalePlayers() {
   const now = Date.now();
-  state.players = state.players.filter((p) => now - p.lastSeen < 30000);
+  state.players = state.players.filter((p) => now - p.lastSeen < 20000);
 }
 
 export async function GET(request: Request) {

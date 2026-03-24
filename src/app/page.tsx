@@ -56,19 +56,19 @@ export default function MobilePage() {
     setShuffledPlayers(arr);
   }, [game.currentQuestion]);
 
-  // Polling + heartbeat
+  // Fast game state polling (1s) — separate from heartbeat
   useEffect(() => {
-    const poll = async () => {
+    const pollGame = async () => {
       try {
         const res = await fetch("/api/state?type=game");
         const data: GameState = await res.json();
 
+        // First poll: sync kickVersion
         if (kickVersionRef.current === -1) {
           kickVersionRef.current = data.kickVersion;
-          setGame(data);
-          return;
         }
 
+        // Kick detection
         if (data.kickVersion > kickVersionRef.current && joinedRef.current) {
           kickVersionRef.current = data.kickVersion;
           setJoined(false);
@@ -81,6 +81,7 @@ export default function MobilePage() {
         }
         kickVersionRef.current = data.kickVersion;
 
+        // New question detection
         const prev = gameRef.current;
         if (data.status === "question" && (prev.status !== "question" || data.currentQuestion !== prev.currentQuestion)) {
           setVoted(false);
@@ -91,20 +92,28 @@ export default function MobilePage() {
         }
 
         setGame(data);
-
-        // Heartbeat: keep player alive if joined
-        if (joinedRef.current) {
-          await fetch("/api/state", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ type: "player", id: getPlayerId(), name: voterNameRef.current }),
-          });
-        }
       } catch { /* offline */ }
     };
 
-    poll();
-    const interval = setInterval(poll, 2000);
+    pollGame();
+    const interval = setInterval(pollGame, 1000); // fast polling
+    return () => clearInterval(interval);
+  }, []);
+
+  // Slower heartbeat (every 5s) — keeps player alive without blocking game state
+  useEffect(() => {
+    const heartbeat = async () => {
+      if (!joinedRef.current) return;
+      try {
+        await fetch("/api/state", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ type: "player", id: getPlayerId(), name: voterNameRef.current }),
+        });
+      } catch { /* offline */ }
+    };
+
+    const interval = setInterval(heartbeat, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -170,11 +179,17 @@ export default function MobilePage() {
               if (isAnonymous || playerName.trim()) {
                 const name = isAnonymous ? "Anonymous" : playerName.trim();
                 try {
+                  // Register player
                   await fetch("/api/state", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ type: "player", id: getPlayerId(), name }),
                   });
+                  // Immediately fetch game state so we don't show stale lobby
+                  const res = await fetch("/api/state?type=game");
+                  const data = await res.json();
+                  kickVersionRef.current = data.kickVersion;
+                  setGame(data);
                 } catch { /* ignore */ }
                 setJoined(true);
               }
