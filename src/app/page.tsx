@@ -111,6 +111,7 @@ export default function MobilePage() {
   const [showFlash, setShowFlash] = useState(false);
   const [shuffledPlayers, setShuffledPlayers] = useState<string[]>([...PLAYERS].sort(() => Math.random() - 0.5));
   const [voteError, setVoteError] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const gameRef = useRef(game);
   const kickVersionRef = useRef(-1);
@@ -167,6 +168,7 @@ export default function MobilePage() {
           setReason("");
           setShowCustomReason(false);
           setVoteError(false);
+          setSubmitting(false);
 
           // Check if we already voted on this question (handles refresh/rejoin)
           try {
@@ -213,7 +215,8 @@ export default function MobilePage() {
   };
 
   const handleSubmitVote = async () => {
-    if (!selectedAnswer) return;
+    if (!selectedAnswer || submitting) return;
+    setSubmitting(true);
     setShowFlash(true);
     setShowReasonInput(false);
     setVoted(true);
@@ -237,6 +240,7 @@ export default function MobilePage() {
       setVoteError(true);
     }
 
+    setSubmitting(false);
     setTimeout(() => setShowFlash(false), 500);
   };
 
@@ -431,9 +435,9 @@ export default function MobilePage() {
                 className="flex-1 py-3 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-bold transition-all border border-zinc-700 text-sm flex items-center justify-center gap-1.5">
                 <ArrowLeft className="w-4 h-4" /> Change
               </button>
-              <button onClick={handleSubmitVote} disabled={!reason}
+              <button onClick={handleSubmitVote} disabled={!reason || submitting}
                 className="flex-1 py-3 bg-red-600 hover:bg-red-500 disabled:bg-zinc-800 disabled:text-zinc-600 rounded-xl font-bold transition-all text-sm flex items-center justify-center gap-1.5">
-                <Send className="w-4 h-4" /> Submit
+                <Send className="w-4 h-4" /> {submitting ? "Sending..." : "Submit"}
               </button>
             </div>
           </div>

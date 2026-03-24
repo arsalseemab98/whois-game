@@ -40,6 +40,7 @@ export default function HostPage() {
   const [joinedPlayers, setJoinedPlayers] = useState<PlayerInfo[]>([]);
   const [joinToast, setJoinToast] = useState<string | null>(null);
   const [flash, setFlash] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   const gameRef = useRef(game);
   const joinedIdsRef = useRef<string[]>([]);
@@ -61,12 +62,15 @@ export default function HostPage() {
   };
 
   const resetAll = async () => {
+    if (resetting) return;
+    setResetting(true);
     await sendAction("reset");
     setAllVotes([]);
     setCurrentQVotes([]);
     setJoinedPlayers([]);
     joinedIdsRef.current = [];
     lastQVoteCount.current = 0;
+    setTimeout(() => setResetting(false), 1000);
   };
 
   useEffect(() => {
@@ -233,7 +237,7 @@ export default function HostPage() {
         </div>
 
         <div key={game.currentQuestion} className="text-center mb-8 animate-slide-up">
-          <h2 className="text-4xl sm:text-6xl font-black leading-tight max-w-4xl mx-auto">{QUESTIONS[game.currentQuestion]}</h2>
+          <h2 className="text-4xl sm:text-6xl font-black leading-tight max-w-4xl mx-auto">{QUESTIONS[game.currentQuestion] || "Question not found"}</h2>
         </div>
 
         <div className="flex-1 max-w-3xl mx-auto w-full">
@@ -257,7 +261,8 @@ export default function HostPage() {
               {uniqueVoterIds.length > 0 && uniqueVoterIds.length < totalExpected && (
                 <p className="text-zinc-600 font-mono animate-pulse">Waiting for more votes...</p>
               )}
-              <button onClick={() => setRevealed(true)} className="mt-6 py-3 px-8 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-lg rounded-2xl transition-all border border-zinc-700">
+              <button onClick={() => setRevealed(true)} disabled={uniqueVoterIds.length === 0}
+                className="mt-6 py-3 px-8 bg-zinc-800 hover:bg-zinc-700 disabled:opacity-30 disabled:hover:bg-zinc-800 text-zinc-300 font-bold text-lg rounded-2xl transition-all border border-zinc-700">
                 <Eye className="w-5 h-5 inline" /> Show Results Now
               </button>
             </div>
