@@ -46,7 +46,7 @@ export default function HostPage() {
   gameRef.current = game;
 
   const sendAction = async (action: string) => {
-    const res = await fetch("/api/state", {
+    const res = await fetch("/api/state?t=" + Date.now(), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ type: "game", action }),
@@ -71,10 +71,16 @@ export default function HostPage() {
   useEffect(() => {
     const poll = async () => {
       try {
-        const g = gameRef.current;
+        const t = Date.now();
+
+        // ALWAYS fetch game state from server — detect cold starts and desyncs
+        const gRes = await fetch(`/api/state?type=game&t=${t}`, { cache: "no-store" });
+        const serverGame: GameState = await gRes.json();
+        setGame(serverGame);
+        gameRef.current = serverGame;
 
         // Fetch players
-        const pRes = await fetch("/api/state?type=players");
+        const pRes = await fetch(`/api/state?type=players&t=${t}`, { cache: "no-store" });
         const pData = await pRes.json();
         const serverPlayers: PlayerInfo[] = pData.players;
         const serverIds = serverPlayers.map((p) => p.id);
@@ -90,9 +96,9 @@ export default function HostPage() {
         joinedIdsRef.current = serverIds;
         setJoinedPlayers(serverPlayers);
 
-        // Fetch votes for current question
-        if (g.status === "question") {
-          const vRes = await fetch(`/api/state?type=votes&question=${g.currentQuestion}`);
+        // Fetch votes for current question (use server game state, not stale local)
+        if (serverGame.status === "question") {
+          const vRes = await fetch(`/api/state?type=votes&question=${serverGame.currentQuestion}&t=${t}`, { cache: "no-store" });
           const vData = await vRes.json();
           if (vData.votes.length > lastQVoteCount.current) {
             setFlash(true);
@@ -102,8 +108,8 @@ export default function HostPage() {
           setCurrentQVotes(vData.votes);
         }
 
-        if (g.status === "final") {
-          const aRes = await fetch("/api/state?type=votes");
+        if (serverGame.status === "final") {
+          const aRes = await fetch(`/api/state?type=votes&t=${t}`, { cache: "no-store" });
           const aData = await aRes.json();
           setAllVotes(aData.votes);
         }

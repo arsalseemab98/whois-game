@@ -60,7 +60,7 @@ export default function MobilePage() {
   useEffect(() => {
     const pollGame = async () => {
       try {
-        const res = await fetch("/api/state?type=game");
+        const res = await fetch("/api/state?type=game&t=" + Date.now(), { cache: "no-store" });
         const data: GameState = await res.json();
 
         // First poll: sync kickVersion
@@ -105,7 +105,7 @@ export default function MobilePage() {
     const heartbeat = async () => {
       if (!joinedRef.current) return;
       try {
-        await fetch("/api/state", {
+        await fetch("/api/state?t=" + Date.now(), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ type: "player", id: getPlayerId(), name: voterNameRef.current }),
@@ -130,7 +130,7 @@ export default function MobilePage() {
     setVoteError(false);
 
     try {
-      const res = await fetch("/api/state", {
+      const res = await fetch("/api/state?t=" + Date.now(), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -180,13 +180,13 @@ export default function MobilePage() {
                 const name = isAnonymous ? "Anonymous" : playerName.trim();
                 try {
                   // Register player
-                  await fetch("/api/state", {
+                  await fetch("/api/state?t=" + Date.now(), {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ type: "player", id: getPlayerId(), name }),
                   });
                   // Immediately fetch game state so we don't show stale lobby
-                  const res = await fetch("/api/state?type=game");
+                  const res = await fetch("/api/state?type=game&t=" + Date.now(), { cache: "no-store" });
                   const data = await res.json();
                   kickVersionRef.current = data.kickVersion;
                   setGame(data);
