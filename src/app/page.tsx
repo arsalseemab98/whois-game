@@ -167,6 +167,18 @@ export default function MobilePage() {
           setReason("");
           setShowCustomReason(false);
           setVoteError(false);
+
+          // Check if we already voted on this question (handles refresh/rejoin)
+          try {
+            const vRes = await fetch(`/api/state?type=votes&question=${data.currentQuestion}&t=${Date.now()}`, { cache: "no-store" });
+            const vData = await vRes.json();
+            const myVote = vData.votes.find((v: { voterId: string }) => v.voterId === getPlayerId());
+            if (myVote) {
+              setVoted(true);
+              setSelectedAnswer(myVote.target);
+              setReason(myVote.reason);
+            }
+          } catch { /* ignore */ }
         }
 
         setGame(data);
@@ -281,6 +293,18 @@ export default function MobilePage() {
                   const data = await res.json();
                   kickVersionRef.current = data.kickVersion;
                   setGame(data);
+
+                  // Check if already voted on current question (rejoin scenario)
+                  if (data.status === "question") {
+                    const vRes = await fetch(`/api/state?type=votes&question=${data.currentQuestion}&t=${Date.now()}`, { cache: "no-store" });
+                    const vData = await vRes.json();
+                    const myVote = vData.votes.find((v: { voterId: string }) => v.voterId === getPlayerId());
+                    if (myVote) {
+                      setVoted(true);
+                      setSelectedAnswer(myVote.target);
+                      setReason(myVote.reason);
+                    }
+                  }
                 } catch { /* ignore */ }
                 setJoined(true);
               }
