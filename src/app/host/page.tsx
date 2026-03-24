@@ -176,7 +176,7 @@ export default function HostPage() {
                   </span>
                 ))}
               </div>
-              <button onClick={() => { if (confirm("Kick all players? They'll need to rejoin.")) resetAll(); }}
+              <button onClick={() => { resetAll(); }}
                 className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm font-mono text-zinc-500 hover:text-red-400 transition-all border border-zinc-700">
                 <RotateCcw className="w-3.5 h-3.5 inline" /> Reset & kick all
               </button>
@@ -223,7 +223,7 @@ export default function HostPage() {
             {!showResults && <span className="text-green-400 font-mono text-lg animate-pulse">● VOTING</span>}
             {showResults && <span className="text-orange-400 font-mono text-lg">● RESULTS</span>}
             <span className="bg-zinc-800 px-4 py-2 rounded-full font-mono text-lg">{uniqueVoterIds.length}/{totalExpected} voted</span>
-            <button onClick={() => { if (confirm("Reset game?")) resetAll(); }}
+            <button onClick={() => { resetAll(); }}
               className="px-3 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-xl text-sm font-mono text-zinc-500 hover:text-red-400 transition-all border border-zinc-700"><RotateCcw className="w-4 h-4" /></button>
           </div>
         </div>

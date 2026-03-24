@@ -330,6 +330,7 @@ export default function MobilePage() {
               {voteError ? "Vote may not have sent!" : "Vote submitted!"}
             </p>
             <p className="text-zinc-500 text-sm font-mono mt-2">You picked: <span className="text-red-400 font-bold">{selectedAnswer}</span></p>
+            {reason && <p className="text-zinc-600 text-xs italic mt-2">&quot;{reason}&quot;</p>}
             <p className="text-zinc-600 text-xs font-mono mt-4">Waiting for next question...</p>
           </div>
         </main>
