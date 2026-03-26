@@ -55,6 +55,35 @@ const QUESTIONS = [
   "Who talks the most but says the least? 🗣️💨",
   "Who is the most high maintenance? 💅👸",
   "Who would be the first to forget your birthday? 🎂❌",
+  // FAMILY
+  "If Bia's parents had to pick someone here as their second child, who? 👨‍👩‍👦",
+  "If Kamran's parents had to pick someone here as their second child, who? 👨‍👩‍👦",
+  "If Shamama's parents had to pick someone here as their second child, who? 👨‍👩‍👦",
+  "If Arsal's parents had to pick someone here as their second child, who? 👨‍👩‍👦",
+  "If Sabrina's parents had to pick someone here as their second child, who? 👨‍👩‍👦",
+  "If Shazil's parents had to pick someone here as their second child, who? 👨‍👩‍👦",
+  "If Alina's parents had to pick someone here as their second child, who? 👨‍👩‍👦",
+  "Who would have the most spoiled kids? 🧸",
+  "Who would be the strictest parent? 👨‍⚖️",
+  "Who would let their kids do whatever they want? 🤷‍♀️",
+  "Who would raise the most well-behaved kids? 🌟👶",
+  "Who would be the embarrassing parent at school events? 😬",
+  "Who would name their kid something ridiculous? 📛",
+  // RELATIONSHIPS
+  "Who falls in love the fastest? 💘",
+  "Who would get married first? 💍",
+  "Who would get divorced first? 💔📝",
+  "Who is the most clingy in relationships? 🫂",
+  "Who gives the worst relationship advice? 💬❌",
+  "Who would cheat first? 🐍💔",
+  "Who is the biggest simp? 🥺",
+  "Who has the highest standards but shouldn't? 👑🤡",
+  "Who would stay in a toxic relationship the longest? ⛓️",
+  "Who would stalk their ex's social media? 📱👀",
+  "Who catches feelings the easiest? 🦋",
+  "Who would date their friend's ex? 😱🚩",
+  "Who is the most romantic? 🌹",
+  "Who would be the best boyfriend/girlfriend? 💕",
 ];
 
 type Vote = { voterId: string; voter: string; question: number; target: string; reason: string };
@@ -64,7 +93,7 @@ type GameState = { status: "lobby" | "question" | "final"; currentQuestion: numb
 const COLORS_BG = ["bg-red-600", "bg-orange-600", "bg-amber-600", "bg-emerald-600", "bg-blue-600", "bg-purple-600", "bg-pink-600"];
 
 export default function HostPage() {
-  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 47, kickVersion: 1, questionOrder: [] });
+  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 74, kickVersion: 1, questionOrder: [] });
   const [allVotes, setAllVotes] = useState<Vote[]>([]);
   const [currentQVotes, setCurrentQVotes] = useState<Vote[]>([]);
   const [revealed, setRevealed] = useState(false);

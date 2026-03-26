@@ -103,6 +103,56 @@ const WHY_PER_QUESTION: string[][] = [
   ["Everything has to be perfect for them", "Takes 3 hours to get ready", "Complains if things aren't exactly their way", "Being their friend is a full-time job"],
   // Q82: First to forget birthday
   ["Doesn't even know when it is", "Too self-absorbed to remember", "Would forget even with a reminder", "Only remembers their own birthday"],
+  // FAMILY — second child per person
+  // Q83-Q89: Parents pick second child
+  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
+  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
+  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
+  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
+  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
+  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
+  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
+  // Q90: Most spoiled kids
+  ["Already spoils themselves", "Can't say no to anyone", "Would buy their kid everything", "Their kid would be a nightmare"],
+  // Q91: Strictest parent
+  ["Already acts like a dictator", "Has too many rules for themselves", "Zero tolerance for nonsense", "Their kid would rebel hard"],
+  // Q92: Let kids do anything
+  ["Too lazy to discipline", "Wants to be the cool parent", "Can't even control themselves", "Would be their kid's best friend not parent"],
+  // Q93: Most well-behaved kids
+  ["Has the best values", "Would actually put in the effort", "Leads by example", "Their patience is unmatched"],
+  // Q94: Embarrassing parent
+  ["Already embarrasses the group", "Would try too hard to be cool", "Would show up in the most extra outfit", "Would tell their kid's friends embarrassing stories"],
+  // Q95: Ridiculous kid name
+  ["Already has weird taste in everything", "Would pick a celebrity name", "Would spell a normal name wrong on purpose", "Would name their kid after a character"],
+  // RELATIONSHIPS
+  // Q96: Falls in love fastest
+  ["Catches feelings after one conversation", "Heart on their sleeve 24/7", "Falls for everyone they meet", "Already in love with someone right now probably"],
+  // Q97: Married first
+  ["Already planning their wedding", "Can't survive being single", "Most ready for commitment", "Has their future spouse picked out already"],
+  // Q98: Divorced first
+  ["Can't commit to anything", "Would get bored immediately", "Too many red flags for marriage", "Would marry the wrong person on purpose"],
+  // Q99: Most clingy
+  ["Texts 100 times a day", "Can't be alone for 5 minutes", "Gets upset if you don't reply instantly", "Would track their partner's location"],
+  // Q100: Worst relationship advice
+  ["Their own love life is a disaster", "Gives advice they'd never follow", "Always says 'just break up'", "Has zero emotional intelligence"],
+  // Q101: Would cheat first
+  ["Can't resist attention from others", "Has wandering eyes already", "Loyalty isn't their strong suit", "Would blame the other person somehow"],
+  // Q102: Biggest simp
+  ["Would do anything for a crush", "Loses all self-respect when they like someone", "Puts their crush on a pedestal", "Simping is their full-time job"],
+  // Q103: High standards but shouldn't
+  ["Their standards don't match what they offer", "Wants a 10 but gives a 3", "Picky about everything but themselves", "Delusional about their own worth"],
+  // Q104: Stay in toxic relationship longest
+  ["Afraid of being alone", "Makes excuses for bad behavior", "Thinks they can fix people", "Has already done it before"],
+  // Q105: Stalk ex's social media
+  ["Checks their ex daily already", "Would create a fake account to watch", "Can't let go of the past", "Knows their ex's every move"],
+  // Q106: Catches feelings easiest
+  ["One compliment and they're gone", "Falls for anyone who's nice to them", "Emotionally available to a fault", "Already crushing on someone right now"],
+  // Q107: Date friend's ex
+  ["Has no boundaries", "Would justify it somehow", "Attraction over loyalty", "Has thought about it already"],
+  // Q108: Most romantic
+  ["Knows how to make someone feel special", "Would plan the perfect date", "Hopeless romantic at heart", "Their partner would be the luckiest"],
+  // Q109: Best boyfriend/girlfriend
+  ["Caring, loyal, and fun", "Would actually put in effort", "Knows how to communicate", "The full package honestly"],
 ];
 
 const COLORS = [
@@ -128,7 +178,7 @@ export default function MobilePage() {
   const [playerName, setPlayerName] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [joined, setJoined] = useState(false);
-  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 47, kickVersion: 1, questionOrder: [] });
+  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 74, kickVersion: 1, questionOrder: [] });
   const [voted, setVoted] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showReasonInput, setShowReasonInput] = useState(false);
