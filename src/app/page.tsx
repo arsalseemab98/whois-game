@@ -91,6 +91,88 @@ const WHY_PER_QUESTION: string[][] = [
   ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Shazil's own personality"],
   // Q42: If Alina has a child, whose personality should it have?
   ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Alina's own personality"],
+  // POSITIVE Q43-Q62
+  // Q43: Best heart
+  ["Always there for everyone", "Never says no when you need them", "Genuinely cares about people", "Would give their last for a friend"],
+  // Q44: Trust with your life
+  ["They've proven it many times", "Most reliable person here", "Would never let you down", "Loyal to the core"],
+  // Q45: Best advice
+  ["Actually listens before speaking", "Been through a lot, learned from it", "Always gives it straight, no sugar coating", "Wise beyond their years"],
+  // Q46: Actually funny
+  ["Makes everyone laugh effortlessly", "Timing is always perfect", "Funny without trying", "The group comedian for real"],
+  // Q47: By your side in crisis
+  ["Stays calm under pressure", "Would drop everything to help", "The strongest person here", "Already proved it before"],
+  // Q48: Most loyal
+  ["Would never switch up on you", "Has your back no matter what", "Been loyal since day one", "Loyalty is their whole personality"],
+  // Q49: Best style
+  ["Always looks good no matter what", "Effortlessly stylish", "Everyone copies their outfits", "Fashion icon of the group"],
+  // Q50: Best parent
+  ["Most patient person here", "Would give their kid the best life", "Already acts like a parent", "Has the perfect balance of fun and discipline"],
+  // Q51: Most hardworking
+  ["Never stops grinding", "Works harder than everyone combined", "Their work ethic is insane", "Success is coming for them 100%"],
+  // Q52: Most genuine
+  ["What you see is what you get", "Never puts on an act", "Honest to a fault", "The most real person in the group"],
+  // Q53: Lights up the room
+  ["Energy changes when they walk in", "Everyone's mood lifts around them", "Natural charisma", "The life of every gathering"],
+  // Q54: Business partner
+  ["Smart and trustworthy combo", "Would actually make money together", "Best work ethic + brains", "Already thinks like an entrepreneur"],
+  // Q55: Best humor
+  ["Comedy comes naturally to them", "Even their serious moments are funny", "Group chat MVP", "Would survive as a stand-up comedian"],
+  // Q56: Smartest
+  ["Book smart and street smart", "Knows something about everything", "The one everyone asks for help", "Brain works different from everyone else"],
+  // Q57: Call at 3 AM
+  ["Would actually pick up", "No judgment, just support", "Already done it before", "The only one you'd trust at that hour"],
+  // Q58: Deserves most happiness
+  ["Been through the most and still smiles", "Never complains about anything", "Always puts others first", "The universe owes them big time"],
+  // Q59: Changed the most
+  ["Completely different person now", "Growth is real and visible", "Used to be worse, now they're great", "The glow up is real"],
+  // Q60: Most underrated
+  ["People don't appreciate them enough", "Does so much without recognition", "Quiet but carries the group", "Deserves way more credit"],
+  // Q61: Stuck on island with
+  ["Would keep you alive AND entertained", "Best survival skills", "Wouldn't go crazy being stuck with them", "The most chill person here"],
+  // Q62: Glue of the group
+  ["Without them the group falls apart", "Always brings everyone together", "The peacemaker", "Plans everything and holds it down"],
+  // EXTREME NEGATIVE Q63-Q82
+  // Q63: Most manipulative
+  ["Controls people without them knowing", "Always has a hidden motive", "Plays mind games for fun", "You never know their real intentions"],
+  // Q64: Never date
+  ["Red flags on red flags", "Would ruin your life", "Worst partner energy ever", "Already proved they can't handle relationships"],
+  // Q65: Toxic trait they won't fix
+  ["Everyone's told them but they don't care", "It's getting worse not better", "They think it's a personality not a problem", "Will never change at this point"],
+  // Q66: Vote out of group
+  ["Group would be better without them", "Creates more problems than they solve", "Nobody would actually miss them", "Everyone thinks it but won't say it"],
+  // Q67: Biggest liar
+  ["Believes their own lies", "Lies about things that don't even matter", "Can't tell the difference between truth and fiction", "Their version of events is always different"],
+  // Q68: Stab and smile
+  ["Would betray you and act like nothing happened", "Has done it before and will again", "Smiles to your face, plots behind your back", "The definition of snake"],
+  // Q69: Secretly most irritating
+  ["Small things they do drive you crazy", "You tolerate them out of politeness", "Gets worse the more time you spend with them", "Everyone feels it but nobody says it"],
+  // Q70: Most negative energy
+  ["Complains about everything", "Kills the vibe every time", "Always has something negative to say", "The group downer"],
+  // Q71: Needs therapy most
+  ["Unresolved issues are showing", "Takes it out on everyone else", "In denial about their problems", "Everyone can see it except them"],
+  // Q72: Most selfish
+  ["Everything is always about them", "Never considers anyone else's feelings", "Takes but never gives", "Would choose themselves over anyone every time"],
+  // Q73: Throw under the bus
+  ["Self-preservation above all", "Has done it before", "Would sacrifice anyone to save face", "Zero shame about it either"],
+  // Q74: Worst attitude
+  ["Rude for no reason", "Acts like the world owes them", "Disrespectful and doesn't care", "Attitude problem since birth"],
+  // Q75: Wouldn't trust with secret
+  ["It would be public knowledge in hours", "Tells 'just one person' which becomes everyone", "Uses secrets as ammunition later", "Their mouth has no filter"],
+  // Q76: Most childish
+  ["Throws tantrums over nothing", "Can't handle adult conversations", "Refuses to take responsibility", "Still acts like they're 12"],
+  // Q77: Makes everything about themselves
+  ["Your problem becomes their bigger problem", "Can't let anyone else have a moment", "Main character syndrome extreme edition", "Hijacks every conversation"],
+  // Q78: Most annoying habit
+  ["Does it constantly and doesn't realize", "Everyone notices but nobody says anything", "It's become their signature cringe move", "Impossible to ignore"],
+  // Q79: Worst roommate
+  ["Would never clean anything", "Zero respect for shared space", "Loud at the worst times", "Would make your life miserable"],
+  // Q80: Talks most says least
+  ["Never shuts up but says nothing meaningful", "Loves the sound of their own voice", "Could talk for hours about absolutely nothing", "Quantity over quality always"],
+  // Q81: Most high maintenance
+  ["Everything has to be perfect for them", "Takes 3 hours to get ready", "Complains if things aren't exactly their way", "Being their friend is a full-time job"],
+  // Q82: First to forget birthday
+  ["Doesn't even know when it is", "Too self-absorbed to remember", "Would forget even with a reminder", "Only remembers their own birthday"],
 ];
 
 const COLORS = [
@@ -116,7 +198,7 @@ export default function MobilePage() {
   const [playerName, setPlayerName] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [joined, setJoined] = useState(false);
-  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 42, kickVersion: 1, questionOrder: [] });
+  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 82, kickVersion: 1, questionOrder: [] });
   const [voted, setVoted] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showReasonInput, setShowReasonInput] = useState(false);

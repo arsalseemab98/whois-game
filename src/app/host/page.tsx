@@ -31,6 +31,48 @@ const QUESTIONS = [
   "If Sabrina has a child, whose personality should it have? 👶",
   "If Shazil has a child, whose personality should it have? 👶",
   "If Alina has a child, whose personality should it have? 👶",
+  // POSITIVE
+  "Who has the best heart here? 💖",
+  "Who would you trust with your life? 🛡️",
+  "Who gives the best advice? 🧠✨",
+  "Who is the funniest (actually funny)? 😂",
+  "Who would you want by your side in a crisis? 🆘",
+  "Who is the most loyal friend here? 🤝",
+  "Who has the best style/fashion? 👗🔥",
+  "Who would be the best parent? 👨‍👩‍👧",
+  "Who is the most hardworking? 💪",
+  "Who is the most genuine person here? 💎",
+  "Who lights up the room when they walk in? ☀️",
+  "Who would you want as your business partner? 💼",
+  "Who has the best sense of humor? 🎤",
+  "Who is the smartest here? 🎓",
+  "Who would you call at 3 AM if you needed help? 📞",
+  "Who deserves the most happiness? 🌟",
+  "Who has changed the most (for the better)? 📈",
+  "Who is the most underrated in the group? 💫",
+  "Who would you want to be stuck on an island with? 🏝️",
+  "Who is the glue that holds the group together? 🧩",
+  // EXTREME NEGATIVE
+  "Who is the most manipulative? 🕸️",
+  "Who would you NEVER date? 🚫💔",
+  "Who has the most toxic trait they refuse to fix? ☠️",
+  "Who would you vote out of the group? 🚪",
+  "Who is the biggest liar and doesn't even realize it? 🤥💀",
+  "Who would stab you in the back and smile about it? 🔪😊",
+  "Who do you secretly find the most irritating? 😒",
+  "Who brings the most negative energy? 🌧️",
+  "Who needs therapy the most? 🛋️",
+  "Who is the most selfish? 🪞",
+  "Who would throw you under the bus to save themselves? 🚌",
+  "Who has the worst attitude? 😤💢",
+  "Who would you NOT trust with a secret? 🤐❌",
+  "Who is the most childish? 🍼",
+  "Who makes everything about themselves? 🎯",
+  "Who has the most annoying habit? 😖",
+  "Who would be the worst roommate? 🏠🚫",
+  "Who talks the most but says the least? 🗣️💨",
+  "Who is the most high maintenance? 💅👸",
+  "Who would be the first to forget your birthday? 🎂❌",
 ];
 
 type Vote = { voterId: string; voter: string; question: number; target: string; reason: string };
@@ -40,7 +82,7 @@ type GameState = { status: "lobby" | "question" | "final"; currentQuestion: numb
 const COLORS_BG = ["bg-red-600", "bg-orange-600", "bg-amber-600", "bg-emerald-600", "bg-blue-600", "bg-purple-600", "bg-pink-600"];
 
 export default function HostPage() {
-  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 42, kickVersion: 1, questionOrder: [] });
+  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 82, kickVersion: 1, questionOrder: [] });
   const [allVotes, setAllVotes] = useState<Vote[]>([]);
   const [currentQVotes, setCurrentQVotes] = useState<Vote[]>([]);
   const [revealed, setRevealed] = useState(false);
