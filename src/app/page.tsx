@@ -104,14 +104,20 @@ const WHY_PER_QUESTION: string[][] = [
   // Q82: First to forget birthday
   ["Doesn't even know when it is", "Too self-absorbed to remember", "Would forget even with a reminder", "Only remembers their own birthday"],
   // FAMILY — second child per person
-  // Q83-Q89: Parents pick second child
-  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
-  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
-  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
-  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
-  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
-  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
-  ["They're way more polite", "Better behaved than the actual child", "The parents already love them", "Would be the favorite sibling instantly"],
+  // Bia's parents pick
+  ["Way more respectful than Bia", "Bia's parents already love them more", "Would be the golden child instantly", "Bia would be jealous of the attention"],
+  // Kamran's parents pick
+  ["More responsible than Kamran", "Kamran's parents need someone calmer", "Would actually help around the house", "Kamran would feel replaced immediately"],
+  // Shamama's parents pick
+  ["Less dramatic than Shamama", "Shamama's parents want some peace", "Would balance out Shamama's energy", "The family needs this person's vibe"],
+  // Arsal's parents pick
+  ["More organized than Arsal", "Arsal's parents deserve better", "Would actually listen to the parents", "Arsal would get competitive with them"],
+  // Sabrina's parents pick
+  ["More chill than Sabrina", "Sabrina's parents want a low-maintenance kid", "Would bring good energy to the family", "Sabrina would secretly love having them around"],
+  // Shazil's parents pick
+  ["More mature than Shazil", "Shazil's parents need someone reliable", "Would keep Shazil in check", "The family upgrade they deserve"],
+  // Alina's parents pick
+  ["More easygoing than Alina", "Alina's parents want less stress", "Would actually be on time to family events", "Alina would either love or hate them"],
   // Q90: Most spoiled kids
   ["Already spoils themselves", "Can't say no to anyone", "Would buy their kid everything", "Their kid would be a nightmare"],
   // Q91: Strictest parent
