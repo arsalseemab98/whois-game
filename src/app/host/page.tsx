@@ -35,12 +35,12 @@ const QUESTIONS = [
 
 type Vote = { voterId: string; voter: string; question: number; target: string; reason: string };
 type PlayerInfo = { id: string; name: string };
-type GameState = { status: "lobby" | "question" | "final"; currentQuestion: number; totalQuestions: number; kickVersion: number };
+type GameState = { status: "lobby" | "question" | "final"; currentQuestion: number; totalQuestions: number; kickVersion: number; questionOrder: number[] };
 
 const COLORS_BG = ["bg-red-600", "bg-orange-600", "bg-amber-600", "bg-emerald-600", "bg-blue-600", "bg-purple-600", "bg-pink-600"];
 
 export default function HostPage() {
-  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 42, kickVersion: 1 });
+  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 42, kickVersion: 1, questionOrder: [] });
   const [allVotes, setAllVotes] = useState<Vote[]>([]);
   const [currentQVotes, setCurrentQVotes] = useState<Vote[]>([]);
   const [revealed, setRevealed] = useState(false);
@@ -244,7 +244,7 @@ export default function HostPage() {
         </div>
 
         <div key={game.currentQuestion} className="text-center mb-8 animate-slide-up">
-          <h2 className="text-4xl sm:text-6xl font-black leading-tight max-w-4xl mx-auto">{QUESTIONS[game.currentQuestion] || "Question not found"}</h2>
+          <h2 className="text-4xl sm:text-6xl font-black leading-tight max-w-4xl mx-auto">{QUESTIONS[game.questionOrder?.[game.currentQuestion] ?? game.currentQuestion] || "Question not found"}</h2>
         </div>
 
         <div className="flex-1 max-w-3xl mx-auto w-full">

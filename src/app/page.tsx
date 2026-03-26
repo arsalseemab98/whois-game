@@ -99,7 +99,7 @@ const COLORS = [
   "from-pink-600 to-pink-700",
 ];
 
-type GameState = { status: "lobby" | "question" | "final"; currentQuestion: number; totalQuestions: number; kickVersion: number };
+type GameState = { status: "lobby" | "question" | "final"; currentQuestion: number; totalQuestions: number; kickVersion: number; questionOrder: number[] };
 
 function getPlayerId() {
   if (typeof window === "undefined") return "";
@@ -116,7 +116,7 @@ export default function MobilePage() {
   const [playerName, setPlayerName] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [joined, setJoined] = useState(false);
-  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 42, kickVersion: 1 });
+  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 42, kickVersion: 1, questionOrder: [] });
   const [voted, setVoted] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showReasonInput, setShowReasonInput] = useState(false);
@@ -410,7 +410,7 @@ export default function MobilePage() {
             {/* Question-specific reason options (4) + custom (5th) */}
             {!showCustomReason ? (
               <div className="space-y-2 flex-1 overflow-y-auto">
-                {(WHY_PER_QUESTION[game.currentQuestion] || []).map((opt) => (
+                {(WHY_PER_QUESTION[game.questionOrder?.[game.currentQuestion] ?? game.currentQuestion] || []).map((opt) => (
                   <button
                     key={opt}
                     onClick={() => setReason(opt)}

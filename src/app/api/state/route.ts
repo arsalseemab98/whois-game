@@ -14,15 +14,32 @@ const STATE_KEY = "whois:state";
 
 type Vote = { voterId: string; voter: string; question: number; target: string; reason: string };
 type Player = { id: string; name: string; lastSeen: number };
+const TOTAL_QUESTIONS = 42;
+
 type State = {
-  game: { status: "lobby" | "question" | "final"; currentQuestion: number; totalQuestions: number; kickVersion: number };
+  game: {
+    status: "lobby" | "question" | "final";
+    currentQuestion: number;
+    totalQuestions: number;
+    kickVersion: number;
+    questionOrder: number[]; // shuffled indices
+  };
   votes: Vote[];
   players: Player[];
 };
 
+function shuffleArray(length: number): number[] {
+  const arr = Array.from({ length }, (_, i) => i);
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 function defaultState(): State {
   return {
-    game: { status: "lobby", currentQuestion: 0, totalQuestions: 42, kickVersion: 1 },
+    game: { status: "lobby", currentQuestion: 0, totalQuestions: TOTAL_QUESTIONS, kickVersion: 1, questionOrder: shuffleArray(TOTAL_QUESTIONS) },
     votes: [],
     players: [],
   };
@@ -85,6 +102,7 @@ export async function POST(request: Request) {
     if (body.action === "start") {
       state.game.status = "question";
       state.game.currentQuestion = 0;
+      state.game.questionOrder = shuffleArray(TOTAL_QUESTIONS); // new random order each game
     } else if (body.action === "next") {
       if (state.game.currentQuestion < state.game.totalQuestions - 1) {
         state.game.currentQuestion += 1;
