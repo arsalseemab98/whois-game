@@ -24,6 +24,13 @@ const QUESTIONS = [
   "Who has the biggest ego? 👑", "Who is the most two-faced? 🎭🎭",
   "Who gossips the most but says 'I don't gossip'? 🫖", "Who would ghost everyone first? 👻",
   "Who is the most delusional about themselves? 🌈",
+  "If Bia has a child, whose personality should it have? 👶",
+  "If Kamran has a child, whose personality should it have? 👶",
+  "If Shamama has a child, whose personality should it have? 👶",
+  "If Arsal has a child, whose personality should it have? 👶",
+  "If Sabrina has a child, whose personality should it have? 👶",
+  "If Shazil has a child, whose personality should it have? 👶",
+  "If Alina has a child, whose personality should it have? 👶",
 ];
 
 type Vote = { voterId: string; voter: string; question: number; target: string; reason: string };
@@ -33,7 +40,7 @@ type GameState = { status: "lobby" | "question" | "final"; currentQuestion: numb
 const COLORS_BG = ["bg-red-600", "bg-orange-600", "bg-amber-600", "bg-emerald-600", "bg-blue-600", "bg-purple-600", "bg-pink-600"];
 
 export default function HostPage() {
-  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 35, kickVersion: 1 });
+  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 42, kickVersion: 1 });
   const [allVotes, setAllVotes] = useState<Vote[]>([]);
   const [currentQVotes, setCurrentQVotes] = useState<Vote[]>([]);
   const [revealed, setRevealed] = useState(false);

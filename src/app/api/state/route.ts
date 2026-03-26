@@ -22,7 +22,7 @@ type State = {
 
 function defaultState(): State {
   return {
-    game: { status: "lobby", currentQuestion: 0, totalQuestions: 35, kickVersion: 1 },
+    game: { status: "lobby", currentQuestion: 0, totalQuestions: 42, kickVersion: 1 },
     votes: [],
     players: [],
   };

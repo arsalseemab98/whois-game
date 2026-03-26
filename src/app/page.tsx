@@ -77,6 +77,20 @@ const WHY_PER_QUESTION: string[][] = [
   ["Already takes forever to respond", "Disappears without warning regularly", "Has ghosted before and will again", "Their phone is always on silent"],
   // Q35: Who is the most delusional about themselves?
   ["Lives in a fantasy world", "Sees themselves completely differently than everyone else", "Thinks they're perfect", "Has zero self-awareness"],
+  // Q36: If Bia has a child, whose personality should it have?
+  ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Bia's own personality"],
+  // Q37: If Kamran has a child, whose personality should it have?
+  ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Kamran's own personality"],
+  // Q38: If Shamama has a child, whose personality should it have?
+  ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Shamama's own personality"],
+  // Q39: If Arsal has a child, whose personality should it have?
+  ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Arsal's own personality"],
+  // Q40: If Sabrina has a child, whose personality should it have?
+  ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Sabrina's own personality"],
+  // Q41: If Shazil has a child, whose personality should it have?
+  ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Shazil's own personality"],
+  // Q42: If Alina has a child, whose personality should it have?
+  ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Alina's own personality"],
 ];
 
 const COLORS = [
@@ -102,7 +116,7 @@ export default function MobilePage() {
   const [playerName, setPlayerName] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [joined, setJoined] = useState(false);
-  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 35, kickVersion: 1 });
+  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 42, kickVersion: 1 });
   const [voted, setVoted] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showReasonInput, setShowReasonInput] = useState(false);
