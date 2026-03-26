@@ -7,77 +7,7 @@ const PLAYERS = ["Bia", "Kamran", "Shamama", "Arsal", "Sabrina", "Shazil", "Alin
 
 // 4 specific reasons per question, 5th is always custom
 const WHY_PER_QUESTION: string[][] = [
-  // Q1: Who is the most dramatic?
-  ["Makes everything about themselves", "Cries over nothing", "Always needs attention", "Creates problems out of thin air"],
-  // Q2: Who gets angry the fastest?
-  ["Snaps over the smallest thing", "Their face says it all", "Zero patience, zero chill", "Everyone walks on eggshells around them"],
-  // Q3: Who pretends to be nice but isn't?
-  ["Talks sweet then backstabs", "Their smile is fake", "Nice in person, toxic in group chat", "Two-faced energy 24/7"],
-  // Q4: Who is the most stubborn?
-  ["Never admits they're wrong", "Will argue till everyone gives up", "Their way or no way", "Has never changed their mind once"],
-  // Q5: Who overreacts the most?
-  ["Makes a mountain out of nothing", "Small issue = world war 3", "Everything is the end of the world", "Drama queen/king energy"],
-  // Q6: Who spends the most time on their phone?
-  ["Always scrolling, never listening", "Phone is glued to their hand", "Takes 0.2 seconds to reply", "Can't survive 5 minutes without it"],
-  // Q7: Who lies the most?
-  ["Their stories never add up", "They lie about the dumbest things", "Can't trust a word they say", "Even their 'truth' sounds suspicious"],
-  // Q8: Who is the laziest?
-  ["Would pay someone to breathe for them", "Never wants to do anything", "Always cancels plans last minute", "Their couch knows them best"],
-  // Q9: Who eats the most?
-  ["Always hungry, always eating", "Orders the most food every time", "Finishes everyone else's plate too", "Their stomach has no limit"],
-  // Q10: Who is always late?
-  ["Has never been on time once", "Their 5 minutes = 45 minutes", "The group always waits for them", "They think time is a suggestion"],
-  // Q11: Who is hiding something right now?
-  ["Acting sus lately", "Something is definitely off about them", "They've been too quiet", "Their energy changed recently"],
-  // Q12: Who would snitch first?
-  ["Can't keep a secret to save their life", "Would sell you out for a snack", "Loyalty? They don't know her", "First to fold under pressure"],
-  // Q13: Who talks behind people's back?
-  ["Says one thing to your face, another behind it", "The group gossip machine", "Has tea on everyone", "Their mouth never stops"],
-  // Q14: Who is the biggest overthinker?
-  ["Reads into everything too much", "One text = 3 hours of analysis", "Creates scenarios that don't exist", "Their brain never shuts off"],
-  // Q15: Who gets jealous the easiest?
-  ["Can't stand when others succeed", "Competitive over everything", "Their face when someone else gets praised", "Green with envy 24/7"],
-  // Q16: Who would cry first in an argument?
-  ["Tears come before the first sentence ends", "Emotionally fragile", "Uses crying as a weapon", "Can't handle confrontation"],
-  // Q17: Who thinks they are always right?
-  ["Has never said 'I was wrong'", "Argues facts with opinions", "Google could tell them they're wrong and they'd disagree", "Main character syndrome"],
-  // Q18: Who is the most annoying?
-  ["Doesn't know when to stop", "Gets on everyone's nerves", "Tries too hard to be funny", "The group tolerates them at best"],
-  // Q19: Who would lose in a fight?
-  ["All talk, no action", "Would run before throwing a punch", "Their arms are decorative", "Wouldn't last 2 seconds"],
-  // Q20: Who is the weakest mentally?
-  ["Breaks down over small things", "Can't handle any pressure", "Needs constant reassurance", "Falls apart when things get tough"],
-  // Q21: Who is the fakest?
-  ["Changes personality for every person", "Their whole vibe is an act", "Nobody really knows the real them", "Fake laughs, fake everything"],
-  // Q22: Who tries too hard to impress others?
-  ["Always flexing for no reason", "Needs everyone's validation", "Changes themselves for attention", "Tries too hard to be cool"],
-  // Q23: Who would betray the group first?
-  ["Would drop everyone for a better offer", "Has no real loyalty", "Already has one foot out the door", "Self-interest always comes first"],
-  // Q24: Who is secretly the favorite?
-  ["Everyone secretly likes them more", "Gets away with everything", "The group protects them", "Can do no wrong apparently"],
-  // Q25: Who is the biggest problem here?
-  ["The root cause of all drama", "Remove them and everything is peaceful", "Brings chaos wherever they go", "The group would be better without them"],
-  // Q26: Who has the worst taste in music?
-  ["Their playlist is a crime", "Nobody wants the aux from them", "Thinks their music is fire but it's trash", "Plays the same 3 songs on repeat"],
-  // Q27: Who thinks they're funny but ISN'T?
-  ["Laughs at their own jokes alone", "Nobody laughs but they keep going", "Thinks they're a comedian", "Their humor is stuck in 2015"],
-  // Q28: Who would survive last in a zombie apocalypse?
-  ["Would trip and fall first", "Too slow to run", "Would try to reason with the zombies", "Would be hiding crying somewhere"],
-  // Q29: Who is the most toxic in relationships?
-  ["Red flags everywhere", "Their ex would agree 100%", "Relationship destroyer", "Brings drama into every relationship"],
-  // Q30: Who would sell the group out for money?
-  ["Has a price and it's low", "Money over friends always", "Would snitch for $50", "Zero loyalty when cash is involved"],
-  // Q31: Who has the biggest ego?
-  ["Thinks they're God's gift to earth", "Mirror is their best friend", "Can't stop talking about themselves", "Ego bigger than their brain"],
-  // Q32: Who is the most two-faced?
-  ["Different person with different people", "You never know which version you'll get", "Sweet to your face, savage behind your back", "Has more faces than a clock"],
-  // Q33: Who gossips the most but says they don't?
-  ["'I don't gossip BUT...' every time", "Knows everyone's business", "The walking newspaper", "Says 'don't tell anyone' then tells everyone"],
-  // Q34: Who would ghost everyone first?
-  ["Already takes forever to respond", "Disappears without warning regularly", "Has ghosted before and will again", "Their phone is always on silent"],
-  // Q35: Who is the most delusional about themselves?
-  ["Lives in a fantasy world", "Sees themselves completely differently than everyone else", "Thinks they're perfect", "Has zero self-awareness"],
-  // Q36: If Bia has a child, whose personality should it have?
+  // Q1: If Bia has a child, whose personality should it have?
   ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Bia's own personality"],
   // Q37: If Kamran has a child, whose personality should it have?
   ["They have the best personality here", "The child would be unstoppable", "They're the only normal one", "Anyone but Kamran's own personality"],
@@ -198,7 +128,7 @@ export default function MobilePage() {
   const [playerName, setPlayerName] = useState("");
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [joined, setJoined] = useState(false);
-  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 82, kickVersion: 1, questionOrder: [] });
+  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 47, kickVersion: 1, questionOrder: [] });
   const [voted, setVoted] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showReasonInput, setShowReasonInput] = useState(false);

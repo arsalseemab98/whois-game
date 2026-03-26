@@ -6,24 +6,6 @@ import { Flame, RotateCcw, Crown, Skull, Trophy, Eye, ChevronRight, MessageCircl
 const PLAYERS = ["Bia", "Kamran", "Shamama", "Arsal", "Sabrina", "Shazil", "Alina"];
 
 const QUESTIONS = [
-  "Who is the most dramatic? 🎭", "Who gets angry the fastest? 😡",
-  "Who pretends to be nice but isn't? 😇🐍", "Who is the most stubborn? 🪨",
-  "Who overreacts the most? 😱", "Who spends the most time on their phone? 📱",
-  "Who lies the most (even small lies)? 🤥", "Who is the laziest? 🦥",
-  "Who eats the most? 🍕", "Who is always late? ⏰",
-  "Who is hiding something right now? 🤫", "Who would snitch first? 🐀",
-  "Who talks behind people's back? 🗣️", "Who is the biggest overthinker? 🧠",
-  "Who gets jealous the easiest? 💚", "Who would cry first in an argument? 😭",
-  "Who thinks they are always right? 🙄", "Who is the most annoying? 😤",
-  "Who would lose in a fight? 👊", "Who is the weakest mentally? 🧊",
-  "Who is the fakest? 🎭🐍", "Who tries too hard to impress others? 💅",
-  "Who would betray the group first? 🗡️", "Who is secretly the favorite? ⭐",
-  "Who is the biggest problem here? 💀", "Who has the worst taste in music? 🎵🤮",
-  "Who thinks they're funny but ISN'T? 🤡", "Who would survive last in a zombie apocalypse? 🧟",
-  "Who is the most toxic in relationships? ☢️", "Who would sell the group out for money? 💰",
-  "Who has the biggest ego? 👑", "Who is the most two-faced? 🎭🎭",
-  "Who gossips the most but says 'I don't gossip'? 🫖", "Who would ghost everyone first? 👻",
-  "Who is the most delusional about themselves? 🌈",
   "If Bia has a child, whose personality should it have? 👶",
   "If Kamran has a child, whose personality should it have? 👶",
   "If Shamama has a child, whose personality should it have? 👶",
@@ -82,7 +64,7 @@ type GameState = { status: "lobby" | "question" | "final"; currentQuestion: numb
 const COLORS_BG = ["bg-red-600", "bg-orange-600", "bg-amber-600", "bg-emerald-600", "bg-blue-600", "bg-purple-600", "bg-pink-600"];
 
 export default function HostPage() {
-  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 82, kickVersion: 1, questionOrder: [] });
+  const [game, setGame] = useState<GameState>({ status: "lobby", currentQuestion: 0, totalQuestions: 47, kickVersion: 1, questionOrder: [] });
   const [allVotes, setAllVotes] = useState<Vote[]>([]);
   const [currentQVotes, setCurrentQVotes] = useState<Vote[]>([]);
   const [revealed, setRevealed] = useState(false);

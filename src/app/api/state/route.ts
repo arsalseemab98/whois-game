@@ -14,7 +14,7 @@ const STATE_KEY = "whois:state";
 
 type Vote = { voterId: string; voter: string; question: number; target: string; reason: string };
 type Player = { id: string; name: string; lastSeen: number };
-const TOTAL_QUESTIONS = 82;
+const TOTAL_QUESTIONS = 47;
 
 type State = {
   game: {
